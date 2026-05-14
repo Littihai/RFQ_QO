@@ -25,9 +25,15 @@ $price = $_POST["price"];
 $request_ID = $_POST["request_ID"];
 $quatation_ID = $_POST["quatation_ID"];
 
-
-$sql = "UPDATE request_product SET product = '$product' , amount='$amount',unit = '$unit',price = '$price' WHERE request_ID = '$request_ID' ";
-
+if (is_numeric($price) && $price) {
+    $sql = "UPDATE request_product SET product = '$product' , amount='$amount',unit = '$unit',price = '$price' WHERE request_ID = '$request_ID' ";
+} else {
+    // echo "ข้อมูลช่อง 'จำนวน' ต้องเป็นตัวเลข กรุณากรอกใหม่อีกครั้ง";
+    $_SESSION['plan'] = "ข้อมูลช่อง 'ราคา' ต้องเป็นข้อมูลตัวเลข กรุณากรอกข้อมูลใหม่อีกครั้ง";
+    $_SESSION['plan_status'] = 'error';
+    header("Location: Quatation_edit.php?quatation_ID=" . $quatation_ID);
+    exit;
+}
 // $sql = "UPDATE request_product SET product = '$product' , amount=100,unit = '$unit',price = '$price' WHERE request_ID = '$request_ID' ";
 
 sqlsrv_query($conn, "SET NAMES UTF8");
@@ -40,6 +46,7 @@ if ($query1) {
 
     session_start();
     $_SESSION['plan'] = "Update Successfully ! ";
+
     header("Location: Quatation_edit.php?quatation_ID=" . $quatation_ID);
 } else {
 

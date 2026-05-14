@@ -83,18 +83,6 @@ if (!$resultAdmin) {
 
             $endDate = $rfqStarted[$row['num_req']]['EndDate_LT'];
 
-            if (empty($endDate)) {
-                // ยังไม่จบ → สีเหลือง
-                echo '<a class="btn btn-warning btn-xs">
-                        <i class="fa fa-clock text-white"></i>
-                    </a>';
-            } else {
-                // จบแล้ว → สีเขียว
-                echo '<a class="btn btn-success btn-xs">
-                        <i class="fa fa-clock text-white"></i>
-                    </a>';
-            }
-
         }
     }
 // ================================================================================
@@ -110,7 +98,6 @@ if (!$resultAdmin) {
 
     <link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="css/buttons.dataTables.min.css">
-
     <link rel="stylesheet" type="text/css" href="css/fixedHeader.dataTables.min.css">
     <style>
         form {
@@ -541,7 +528,35 @@ if (!$resultAdmin) {
                                         <i class="fa fa-lock"></i>Edit Admin</a>
                                 </li>
                             <?php } ?>
-                            
+
+                            <?php 
+                            $token = base64_encode($EmployeeCode); 
+                            ?>
+
+                            <?php if ($statusAdmin == 'yes') { ?>
+                                <li>
+                                    <a href="https://web.ts-engineering.com/TSE_Upload_RFQ/home/category?token=<?php echo $token; ?>" target="_blank">
+                                        <i class="fa fa-user"></i> Category
+                                    </a>
+                                </li>
+                            <?php } ?>
+
+                            <?php if ($statusAdmin == 'yes') { ?>
+                                <li>
+                                    <a href="https://web.ts-engineering.com/TSE_Upload_RFQ/home/upload?token=<?php echo $token; ?>" target="_blank">
+                                        <i class="fa fa-upload"></i> Upload
+                                    </a>
+                                </li>
+                            <?php } ?>
+
+                            <?php if ($statusAdmin == 'yes') { ?>
+                                <li>
+                                    <a href="https://web.ts-engineering.com/TSE_Upload_RFQ/home/Search?token=<?php echo $token; ?>" target="_blank">
+                                        <i class="fa fa-search" aria-hidden="true"></i> Search
+                                    </a>
+                                </li>
+                            <?php } ?>
+
                             <li>
                                 <a href="logout.php">
                                     <i class="fas fa-power-off"></i>Log out</a>
@@ -1341,7 +1356,7 @@ if (!$resultAdmin) {
                                                                             <?php $endDate = $rfqStarted[$rfqNum]['EndDate_LT']; ?>
 
                                                                             <?php if ($endDate == null): ?>
-                                                                                <a class="btn btn-warning btn-xs" title="Searching">
+                                                                                <a class="btn btn-warning btn-xs" title="Time Keeping">
                                                                                     <i class="fa fa-clock text-white"></i>
                                                                                 </a>
                                                                             <?php else: ?>
@@ -1360,8 +1375,7 @@ if (!$resultAdmin) {
                                                                         <?php if ($statusAdmin == 'yes') { ?>
                                                                             <a data-toggle="tooltip" data-placement="right" title="Delete Quotation <?php echo $row["num_req"] ?>" href="db_delete_quatation.php?quatation_ID=<?php echo $row["quatation_ID"]; ?>&num_req=<?php echo $row["num_req"]; ?>&EmployeeCode&<?php echo $EmployeeCode; ?>EmployeeNameTH=<?php echo $EmployeeThFirstName . ' ' . $EmployeeThLastName; ?>" onclick="return confirm('Are you sure to delete >> <?php echo $row['num_req']; ?> << ?')" class="btn btn-danger  btn-xs"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                                                         <?php } ?>
-
-                                                                        
+                                                                       
                                                                         
                                                                     </td>
                                                                     <td><?php echo $count_record; ?></td>

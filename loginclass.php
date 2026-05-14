@@ -3,8 +3,6 @@
 
 include("connect.php");
 
-
-
 if (isset($_POST['Username']) && isset($_POST['Password'])) {
 
     $username = $_POST['Username'];
@@ -22,10 +20,10 @@ if (isset($_POST['Username']) && isset($_POST['Password'])) {
         echo "<META HTTP-EQUIV='Refresh' CONTENT = '0;URL=index.php'>";
     } else {
 
-        $adServer = "LDAP://TS.TSA.CO.TH";
+        $adServer = "LDAP://TSE.COM";
         $ldap = ldap_connect($adServer);
 
-        $ldaprdn =   $username . '@tsa';
+        $ldaprdn =   $username . '@tse.com';
 
         ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
         ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
@@ -34,7 +32,7 @@ if (isset($_POST['Username']) && isset($_POST['Password'])) {
 
         // echo $resultT["EmployeeCode"];
 
-        echo "<script type=\"text/javascript\">alert(\"Incorrect Password , Please try again.\");</script>";
+        //echo "<script type=\"text/javascript\">alert(\"Incorrect Password , Please try again.\");</script>";
 
         if ($bind) {
 
@@ -43,6 +41,7 @@ if (isset($_POST['Username']) && isset($_POST['Password'])) {
 
             $_SESSION["Username"] = $username;
             $_SESSION["DepartmentCode"] = $resultT["DepartmentCode"];
+            $_SESSION["CostCenter"] = $resultT["CostCenter"];
 
 
             Header("Location: Dashboard.php");
